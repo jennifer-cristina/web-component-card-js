@@ -1,20 +1,17 @@
 'use strict' 
 
-export {createCard} from './student.js'
-
 class card extends HTMLElement {
 
     // criando o construtor da classe chamado de build 
     constructor() {
         super();
-        this.build()
+        this.shadow = this.attachShadow({mode: 'open'})
     }
 
     // attachShadow: método anexa uma árvore shadow DOM ao elemento especificado e retorna uma referência ao seu arquivo ShadowRoot.
-    build() {
-        const shadow = this.attachShadow({mode: 'open'})
-        shadow.appendChild(this.styles())
-        shadow.appendChild(this.createCard())
+    connectedCallback() {
+        this.shadow.appendChild(this.styles())
+        this.shadow.appendChild(this.createCard())
     }
 
     // Estilização da div criada
@@ -48,7 +45,7 @@ class card extends HTMLElement {
                 width: 50%;
                 height: 50%;
                 border-radius: 50%;
-                background-image: url('./img/${this.insertImage()}');
+                background-image: url('${this.insertImage()}');
                 background-size: cover;
                 box-shadow: inset 0 0 8px black;
                 transition: 1s;
@@ -87,7 +84,7 @@ class card extends HTMLElement {
     insertName() {
         let name = this.getAttribute('data-text-name') ?? "Jennifer"
 
-        if(name.length > 15){
+        if(name.length > 20){
             alert('name exceeded')
             name = "unknown"
         }
